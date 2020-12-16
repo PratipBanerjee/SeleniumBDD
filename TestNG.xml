@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<suite name ="DEMO BDD FRAMEWORK" thread-count="2" parallel="tests">
+
+    <test name ="Order Samsung Galaxy">
+            <classes>
+                    <class name = "runner.TestRunnerSamsungGalaxy" />
+            </classes>
+    </test>
+
+    <test name ="Order Vaio Laptop">
+        <classes>
+            <class name = "runner.TestRunnerViaoLaptop" />
+        </classes>
+    </test>
+
+
+</suite>
