@@ -1,17 +1,13 @@
 package stepdefinations;
 
 import framework.controllers.PageFactoryController;
-import framework.dataprovider.PropertiesReader;
 import framework.dependencyinjection.TestContext;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pagefactory.Homepage;
 import java.util.HashMap;
 import java.util.List;
-
 import org.junit.Assert;
-import org.openqa.selenium.WebElement;
+
 
 public class LoginStepDefinition {
 
