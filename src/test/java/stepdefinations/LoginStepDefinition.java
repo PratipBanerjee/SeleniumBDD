@@ -1,33 +1,46 @@
 package stepdefinations;
 
-import base.TestBase;
-import dataProvider.PropetiesReader;
+import framework.controllers.PageFactoryController;
+import framework.dataprovider.PropertiesReader;
+import framework.dependencyinjection.TestContext;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import pagefactory.Homepage;
+import java.util.HashMap;
+import java.util.List;
+
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
-import pageObjects.Homepage;
-import pageObjects.Intermediatepage;
 
 public class LoginStepDefinition {
 
-    private TestBase testBase;
+    private TestContext testContext;
 
-    public LoginStepDefinition(TestBase testBase)
+    private PageFactoryController pageFactory;
+
+    private List<HashMap<String, String>> TestData;
+
+
+    public LoginStepDefinition(TestContext testContext)
     {
-        this.testBase=testBase;
+        this.testContext=testContext;
+        pageFactory = testContext.getPageFactoryController();
+        TestData = testContext.getFileReaderController().getExcelReader().GetTestData("TestData");
     }
 
     @Given("Login as a User \"(.*)\"$")
-    public void LoginAsUser(String username)
+    public void LoginAsUser(String testData)
     {
         try
         {
-            testBase.commonClick(Homepage.initiate(testBase.driver).LoginLink);
-            testBase.commonSendTestData(Homepage.initiate(testBase.driver).Username, username);
-            testBase.commonSendTestData(Homepage.initiate(testBase.driver).Password,
-                    PropetiesReader.ReadEnvironmentParameters("Password"));
-            testBase.commonClick(Homepage.initiate(testBase.driver).LoginButton);
+            int index = Integer.parseInt(testData) - 1;
+            
+            testContext.getWebElementUtil().commonClick(pageFactory.getHomepage().SignInLink);
+            testContext.getWebElementUtil().commonWaitForElement(pageFactory.getHomepage().UsernameField);
+            testContext.getWebElementUtil().commonSendTestData(pageFactory.getHomepage().UsernameField, TestData.get(index).get("Username"));
+            testContext.getWebElementUtil().commonSendTestData(pageFactory.getHomepage().PasswordField, TestData.get(index).get("Password"));
+            testContext.getWebElementUtil().commonClick(pageFactory.getHomepage().LoginButton);
         }
         catch (AssertionError | Exception e)
         {
@@ -37,53 +50,12 @@ public class LoginStepDefinition {
 
     }
 
-    @And("Select the Product \"(.*)\"$")
-    public void SelectProduct(String productname)
-    {
-        try
-        {
-            testBase.commonWaitForElement(Homepage.initiate(testBase.driver).PhoneTab);
-            testBase.pause();
-            for(WebElement product : Homepage.initiate(testBase.driver).ProductList)
-            {
-                if(product.getText().equalsIgnoreCase(productname))
-                {
-                    product.click();
-                    break;
-                }
-            }
-        }
-        catch (AssertionError | Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail();
-        }
-
-    }
-
-    @And("Add product to cart")
-    public void AddToCart()
-    {
-        try
-        {
-            testBase.commonClick(Intermediatepage.initiate(testBase.driver).AddToCartButton);
-            testBase.pause();
-            testBase.AcceptAlert();
-        }
-        catch (AssertionError | Exception e)
-        {
-            e.printStackTrace();
-            Assert.fail();
-        }
-
-    }
-
-    @And("Logout from application")
+    @Then("Validate the presence of Login Successfull Message")
     public void LogoutFromApplication()
     {
         try
         {
-            testBase.commonClick(Homepage.initiate(testBase.driver).LogoutLink);
+            testContext.getWebElementUtil().commonWaitForElement(pageFactory.getHomepage().LoginSuccessfullMessage);
         }
         catch (AssertionError | Exception e)
         {
