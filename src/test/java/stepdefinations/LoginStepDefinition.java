@@ -47,7 +47,7 @@ public class LoginStepDefinition {
     }
 
     @Then("Validate the presence of Login Successfull Message")
-    public void LogoutFromApplication()
+    public void ValidatePresenceOfLoginMessage()
     {
         try
         {
