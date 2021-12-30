@@ -6,7 +6,10 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
         features = "src\\test\\resources\\Features",
-        glue = "stepdefinations"
+        glue = "stepdefinations",
+        plugin = {"listener.ReportListener"},
+        monochrome = true
+        
 )
 
 
