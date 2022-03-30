@@ -1,0 +1,3 @@
+framework\dataprovider\PropertiesReader.class
+framework\controllers\FileReaderController.class
+framework\dependencyinjection\TestContext.class

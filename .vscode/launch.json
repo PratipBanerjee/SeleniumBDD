@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Codelens (Launch) - TestRunnerLocal",
+            "request": "launch",
+            "mainClass": "runner.TestRunnerLocal",
+            "projectName": "SeleniumBDD"
+        }
+    ]
+}

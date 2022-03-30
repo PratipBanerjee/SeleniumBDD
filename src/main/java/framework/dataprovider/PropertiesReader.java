@@ -30,22 +30,10 @@ public class PropertiesReader {
     }
     
     
-    public String getApplicationURL() {
+    public String getBaseURL() {
 
-        String ApplicationURL = environmentparameters.getProperty("ApplicationURL");
-        return ApplicationURL;
+        String BaseURL = environmentparameters.getProperty("BaseURL");
+        return BaseURL;
     }
-    
-    public String getBrowser() {
-
-        String Browser = environmentparameters.getProperty("Browser");
-        return Browser;
-    }
-    
-    
-    
-    
-    
-
 
 }
