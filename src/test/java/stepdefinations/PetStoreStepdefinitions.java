@@ -21,6 +21,13 @@ public class PetStoreStepdefinitions {
         this.scenarioContext=scenarioContext;
     }
 
+    @Given("Customer will do this for number of pets \"(.*)\"$")
+    public void CustomerWillDoThisForNumberOfPets(String testData)
+    {
+
+    }
+    
+    
     @Given("Add a pet to Pet Store with Name as \"(.*)\"$")
     public void LoginAsUser(String testData)
     {
@@ -123,6 +130,27 @@ public class PetStoreStepdefinitions {
             int newCountAvailablePets = availableCount.size();
             int oldAvailableCount = scenarioContext.availablePetCount - 1;
             Assert.assertEquals(newCountAvailablePets, oldAvailableCount);
+        }
+        catch (AssertionError | Exception e)
+        {
+            e.printStackTrace();
+            Assert.fail();
+        }
+    }
+
+    @Then("Order a Pet")
+    public void OrderPet()
+    {
+        try
+        {
+            RequestSpecification request = RestAssured.given()
+                                                        .header("Content-type", "application/json")
+                                                        .body(scenarioContext.getOrderPetRequestBody(scenarioContext.petID, scenarioContext.getGMTDateTime()));
+
+            scenarioContext.response = request.post("/v2/store/order");
+            JsonPath jsonPath = scenarioContext.response.jsonPath();
+            Assert.assertEquals(scenarioContext.response.statusCode(), 200);
+            Assert.assertEquals(jsonPath.getString("petId"), scenarioContext.petID);
         }
         catch (AssertionError | Exception e)
         {
